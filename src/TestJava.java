@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
 public class TestJava {
-    // creating defined constants
+
     private static final int GROUP_SIZE = 4;
     private static final int CARD_NUMBER_LENGHT = 16;
 
-    // creation and description of the Lunh algorithm
+
     public static int luhnAlgorithm(String cardNumber) {
         int sumLuhnAlgorithm = 0;
         for (int i = 0; i < cardNumber.length(); i++) {
@@ -21,12 +21,12 @@ public class TestJava {
         return sumLuhnAlgorithm;
     }
 
-    // checks card number for compliance with the lunh algorithm
+
     public static boolean isCorrectCardNumber(int sumLuhnAlgorithm) {
         return sumLuhnAlgorithm % 10 == 0;
     }
 
-    // print result
+
     public static void printMessage(boolean valid, int sumLuhnAlgorithm, String cardNumber) {
         if (valid) {
             System.out.println("Correct. Checksum: " + sumLuhnAlgorithm + ". \nFor the entered combination: " + cardNumber);
@@ -35,11 +35,7 @@ public class TestJava {
         }
     }
 
-    /*
-Read user input.
-Checking it for correctness of input.
- Compliance with the 16-digit card number.
-*/
+
     public static String readUserInput() {
         System.out.println("Enter the 16th digit card number: ");
         Scanner scanner = new Scanner(System.in);
@@ -68,7 +64,7 @@ Checking it for correctness of input.
         return cardNumber;
     }
 
-    // String formatting
+
     public static String formatString(String string) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < string.length(); i++) {

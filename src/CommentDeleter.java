@@ -23,7 +23,7 @@ public class CommentDeleter {
         StringBuilder builder = new StringBuilder();
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            line = line.replaceAll("//.+", "");
+            line = line.replaceAll("(?sm)(^(?:\\s*)?((?:/\\*(?:\\*)?).*?(?<=\\*/))|(?://).*?(?<=$))", "");
             builder.append(line);
             builder.append("///");
         }
@@ -35,7 +35,9 @@ public class CommentDeleter {
         FileWriter writer = new FileWriter(file);
         String[] array = result.split("///");
         for (String line : array) {
-            writer.write(line + "\n");
+            if (line != "\n") {
+                writer.write(line + "\n");
+            }
         }
         writer.close();
     }
