@@ -18,13 +18,37 @@ public class CommentDeleter {
         return null;
     }
 
+    public String deleteSingleComment(String string) {
+        StringBuilder builder = new StringBuilder();
+        boolean flag = false;
+        for (int i = 0; i < string.length(); i++) {
+            if (string.charAt(i) == '"' && flag == false) {
+                flag = true;
+                builder.append(string.charAt(i));
+                continue;
+            } else if (string.charAt(i) != '"' && flag == true) {
+                builder.append(string.charAt(i));
+                continue;
+            } else if (string.charAt(i) == '"' && flag == true) {
+                flag = false;
+                builder.append(string.charAt(i));
+                continue;
+            } else if (i + 1 < string.length() && (string.charAt(i) == '/' && string.charAt(i + 1) == '/')) {
+                break;
+            } else {
+                builder.append(string.charAt(i));
+            }
+        }
+        return builder.toString();
+    }
+
+
     public String readFileAndDeletesComment(File file) throws FileNotFoundException {
         Scanner scanner = new Scanner(file);
         StringBuilder builder = new StringBuilder();
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            line = line.replaceAll("(?sm)(^(?:\\s*)?((?:/\\*(?:\\*)?).*?(?<=\\*/))|(?://).*?(?<=$))", "");
-            builder.append(line);
+            builder.append(deleteSingleComment(line));
             builder.append("///");
         }
         return builder.toString();
