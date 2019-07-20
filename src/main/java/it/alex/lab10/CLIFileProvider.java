@@ -6,8 +6,8 @@ import java.util.Scanner;
 public class CLIFileProvider implements FileProvider{
 
     @Override
-    public File getFile() {
-            System.out.println("Enter the file directory to read: ");
+    public File getFile(String whatForFile ) {
+            System.out.println("Enter the file directory to "+whatForFile+": ");
             Scanner scanner = new Scanner(System.in);
 
             while (scanner.hasNextLine()) {

@@ -4,5 +4,5 @@ import java.io.File;
 
 public interface FileProvider {
 
-    File getFile();
+    File getFile(String whatForFile);
 }
