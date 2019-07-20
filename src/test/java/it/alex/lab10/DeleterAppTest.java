@@ -19,15 +19,13 @@ public class DeleterAppTest {
         File expectedFile = new File("D:\\Intelij project\\Lab10\\src\\main\\java\\it\\alex\\lab10\\OutputJavaTest.txt");
 
         fileRecord.writeFile(commentDeleter.deleteComment(inputFile), actualFile);
-
         Scanner scannerExpected = new Scanner(expectedFile);
         Scanner scannerActual = new Scanner(actualFile);
-int count=1;
+
         while (scannerActual.hasNextLine()) {
             String expected = scannerExpected.nextLine();
             String actual = scannerActual.nextLine();
-            assertEquals(expected,actual);
-            System.out.println(count++);
+            assertEquals(expected, actual);
         }
     }
 }

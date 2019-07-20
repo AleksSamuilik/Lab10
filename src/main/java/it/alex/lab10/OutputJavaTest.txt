@@ -5,11 +5,11 @@ package it.alex.lab10;
 import java.util.Scanner;
 
 public class InputJavaTest {
-
+    
     private static final int GROUP_SIZE = 4;
     private static final int CARD_NUMBER_LENGHT = 16;
 
-
+    
     public static int luhnAlgorithm(String cardNumber) {
         System.out.println("\"//");
         int sumLuhnAlgorithm = 0;
@@ -26,21 +26,21 @@ public class InputJavaTest {
         return sumLuhnAlgorithm;
     }
 
-
+    
     public static boolean isCorrectCardNumber(int sumLuhnAlgorithm) {
         return sumLuhnAlgorithm % 10 == 0;
     }
 
-
+    
     public static void printMessage(boolean valid, int sumLuhnAlgorithm, String cardNumber) {
-        if (valid) {
+        if (valid) { 
             System.out.println("Correct. Checksum: " + sumLuhnAlgorithm + ". \nFor the entered combination: " + cardNumber);
-        } else {
+        } else { 
             System.out.println("Incorrect. Checksum: " + sumLuhnAlgorithm + ". \nFor the entered combination: " + cardNumber);
         }
     }
 
-
+    
     public static String readUserInput() {
         System.out.println("Enter the 16th digit card number: ");
         Scanner scanner = new Scanner(System.in);
@@ -69,7 +69,7 @@ public class InputJavaTest {
         return cardNumber;
     }
 
-
+    
     public static String formatString(String string) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < string.length(); i++) {
