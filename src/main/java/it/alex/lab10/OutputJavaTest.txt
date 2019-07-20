@@ -1,12 +1,17 @@
+package it.alex.lab10;
+
+
+
 import java.util.Scanner;
 
-public class TestJava {
-    // creating defined constants
+public class InputJavaTest {
+
     private static final int GROUP_SIZE = 4;
     private static final int CARD_NUMBER_LENGHT = 16;
 
-    // creation and description of the Lunh algorithm
+
     public static int luhnAlgorithm(String cardNumber) {
+        System.out.println("\"//");
         int sumLuhnAlgorithm = 0;
         for (int i = 0; i < cardNumber.length(); i++) {
             int digit = Integer.parseInt(String.valueOf(cardNumber.charAt(i)));
@@ -21,25 +26,21 @@ public class TestJava {
         return sumLuhnAlgorithm;
     }
 
-    // checks card number for compliance with the lunh algorithm
+
     public static boolean isCorrectCardNumber(int sumLuhnAlgorithm) {
         return sumLuhnAlgorithm % 10 == 0;
     }
 
-    // print result
+
     public static void printMessage(boolean valid, int sumLuhnAlgorithm, String cardNumber) {
-        if (valid) { //check abc
+        if (valid) {
             System.out.println("Correct. Checksum: " + sumLuhnAlgorithm + ". \nFor the entered combination: " + cardNumber);
-        } else { //
+        } else {
             System.out.println("Incorrect. Checksum: " + sumLuhnAlgorithm + ". \nFor the entered combination: " + cardNumber);
         }
     }
 
-    /*
-   Read user input.
-   Checking it for correctness of input.
-    Compliance with the 16-digit card number.
-   */
+
     public static String readUserInput() {
         System.out.println("Enter the 16th digit card number: ");
         Scanner scanner = new Scanner(System.in);
@@ -68,7 +69,7 @@ public class TestJava {
         return cardNumber;
     }
 
-    // String formatting
+
     public static String formatString(String string) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < string.length(); i++) {
@@ -85,5 +86,6 @@ public class TestJava {
         String cardNumber = readUserInput();
         int sumLuhnAlgorithm = luhnAlgorithm(cardNumber);
         printMessage(isCorrectCardNumber(sumLuhnAlgorithm), sumLuhnAlgorithm, formatString(cardNumber));
+        System.out.println("\"aaass//");
     }
 }
