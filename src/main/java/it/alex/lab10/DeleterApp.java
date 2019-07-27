@@ -12,7 +12,10 @@ public class DeleterApp {
         writer.writeFile(deleter.deleteComment(inputFile),outputFile);
 
         //D:\Intelij project\Lab10\src\main\java\it\alex\lab10\InputJavaTest.txt
-        //D:\Intelij project\Lab10\src\main\java\it\alex\lab10\Test.txt
+        //D:\Intelij project\Lab10\src\main\java\it\alex\lab10\InputMyTest.txt
+
+        //D:\Intelij project\Lab10\src\main\java\it\alex\lab10\OutputJavaTest.txt
+        //D:\Intelij project\Lab10\src\main\java\it\alex\lab10\OutputMyTest.txt
 
     }
 }

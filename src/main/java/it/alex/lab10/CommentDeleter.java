@@ -35,7 +35,22 @@ public class CommentDeleter {
     private String deleteMultiComment(String string) {
         StringBuilder builder1 = new StringBuilder();
         for (int i = 0; i < string.length(); i++) {
-            if (string.charAt(i) == '/' && string.charAt(i + 1) == '*') {
+            if (string.charAt(i) == '"') {
+                builder1.append(string.charAt(i));
+                while (true) {
+                    i++;
+                    if (string.charAt(i) == '"') {
+                        if (string.charAt(i - 1) == '\\') {
+                            builder1.append(string.charAt(i));
+                        } else {
+                            builder1.append(string.charAt(i));
+                            break;
+                        }
+                    } else {
+                        builder1.append(string.charAt(i));
+                    }
+                }
+            } else if (string.charAt(i) == '/' && string.charAt(i + 1) == '*') {
                 i++;
                 while (true) {
                     i++;
