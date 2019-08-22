@@ -1,5 +1,0 @@
-package it.alex.lab10;
-class MyTest {
-    String a = "b//"
-            + "/**c";
-}
