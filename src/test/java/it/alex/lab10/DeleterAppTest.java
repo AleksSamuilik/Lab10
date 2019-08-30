@@ -158,97 +158,94 @@
 
 package it.alex.lab10;
 
-import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-
+@RunWith(Parameterized.class)
 public class DeleterAppTest {
+
+
+    @Parameterized.Parameters(name = "{index}:File{0} equals File {1}")
+    public static Iterable<Object[]> data() {
+        String[][] data = getResoureceList();
+
+        return Arrays.asList(data);
+    }
+
     FileRecord fileRecord = new FileRecord();
     CommentDeleter commentDeleter = new CommentDeleter();
-    private ArrayList<File> fileArrayList = new ArrayList<>();
+    private final String input;
+    private final String expected;
+    private static File actualFile;
 
-    private File[] getResourceFolderFiles(String folder) {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        URL url = loader.getResource(folder);
-        String path = url.getPath();
-        path = path.replaceAll("%20", " ");
-        return new File(path).listFiles();
-    }
-
-    private void fillinTestFiles(File[] files) {
-        int count = 1;
-        while (true) {
-            int number = 0;
-            for (int i = 0; i < files.length; i++) {
-                if (isFileNameCorrect(files[i], count)) {
-                    number++;
-                }
-                if (number == 2) {
-                    count++;
-                    break;
-                }
-            }
-            if (number != 2) {
-                break;
-            }
-        }
-    }
-
-    private boolean isFileNameCorrect(File name, int count) {
-        if (name.getName().toLowerCase().contains("input")) {
-            Pattern pattern = Pattern.compile("^([a-z0-9_\\\\.-]+)-" + count + "-input\\.([a-z].+)", Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(name.getName());
-            if (matcher.find()) {
-                fileArrayList.add(name);
-                return true;
-            }
-        } else if (name.getName().toLowerCase().contains("expected")) {
-            Pattern pattern = Pattern.compile("^([a-z0-9_\\\\.-]+)-" + count + "-expected\\.([a-z].+)", Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(name.getName());
-            if (matcher.find()) {
-                fileArrayList.add(name);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private File findTestFile(File[] files) {
-        for (int i = 0; i < files.length; i++) {
-            if (files[i].getName().toLowerCase().contains("test.txt")) {
-                return files[i];
-            }
-        }
-        return null;
+    public DeleterAppTest(String input, String expected) {
+        this.input = input;
+        this.expected = expected;
     }
 
 
     @Test
-    public void automaticTest() throws IOException {
-        File[] listFiles = getResourceFolderFiles("it/alex/lab10");
-        fillinTestFiles(listFiles);
-        File actualFile = findTestFile(listFiles);
-        Iterator<File> iterator = fileArrayList.iterator();
-        while (iterator.hasNext()) {
-            Scanner scannerExpected = new Scanner(iterator.next());
-            fileRecord.writeFile(commentDeleter.deleteComment(iterator.next()), actualFile);
-            Scanner scannerActual = new Scanner(actualFile);
-            while (scannerActual.hasNextLine()) {
-                String expected = scannerExpected.nextLine();
-                String actual = scannerActual.nextLine();
-                assertEquals(expected, actual);
-            }
+    public void deleterTest() throws IOException {
+        File inputFile = new File(input);
+        File expectedFile = new File(expected);
 
+        fileRecord.writeFile(commentDeleter.deleteComment(inputFile), actualFile);
+        Scanner scannerExpected = new Scanner(expectedFile);
+        Scanner scannerActual = new Scanner(actualFile);
+
+        while (scannerActual.hasNextLine()) {
+            String expected = scannerExpected.nextLine();
+            String actual = scannerActual.nextLine();
+            assertEquals(expected, actual);
         }
+    }
+
+
+    public static String[][] getResoureceList() {
+        String folder = "it/alex/lab10";
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        URL url = loader.getResource(folder);
+        String path = url.getPath();
+        path = path.replaceAll("%20", " ");
+        File[] listFile = new File(path).listFiles();
+        String[][] spisok = new String[listFile.length][2];
+        Pattern input = Pattern.compile("-input\\.([a-z].+)");
+        int index = 0;
+        for (int i = 0; i < listFile.length; i++) {
+            if (listFile[i].getName().contains("Test.txt")){
+                actualFile= listFile[i];
+                continue;
+            }
+            Matcher matcherInput = input.matcher(listFile[i].getName());
+            if (matcherInput.find()) {
+                spisok[index][0] = listFile[i].getPath();
+                String nameFile = listFile[i].getName().replaceAll("-input\\.([a-z].+)", "");
+                Pattern expected = Pattern.compile(nameFile + "-expected\\.([a-z].+)");
+                int count = 0;
+                while (count < listFile.length) {
+                    Matcher matcherExpected = expected.matcher(listFile[count].getName());
+                    if (matcherExpected.find()) {
+                        spisok[index][1] = listFile[count].getPath();
+                        index++;
+                        break;
+                    } else {
+                        count++;
+                    }
+                }
+            }
+        }
+        spisok = Arrays.copyOf(spisok, index);
+        return spisok;
     }
 }
